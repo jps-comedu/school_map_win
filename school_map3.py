@@ -31,3 +31,18 @@ def request_geo(road):
         x = 0
         y = 0
         return x, y
+
+# 주소를 좌표로 변경 -> 고등학교_주소_좌표.xlsx 파일에 저장
+highschool_list = df_from_excel['학교명'].to_list()
+address_list = df_from_excel['도로명주소'].to_list()
+
+wb = Workbook()
+sheet = wb.active
+     
+for num, value in enumerate(address_list):
+    addr = value
+    print(addr)
+    x, y = request_geo(addr) # API를 활용하여 주소를 좌표로 변환
+    sheet.append([highschool_list[num], addr, x, y]) # 학교명, 주소, x, y의 순서대로 엑셀에 저장
+    
+wb.save(r"고등학교_주소_좌표.xlsx")
